@@ -34,7 +34,8 @@ function validate(body) {
     brand: Joi.string()
       .min(1)
       .max(200)
-      .required()
+      .required(),
+    image: Joi.string()
   };
   const result = Joi.validate(body, schema);
   return result;
