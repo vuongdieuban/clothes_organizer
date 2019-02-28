@@ -19,7 +19,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   });
 
   if (req.file) {
-    shirt.image = req.file.path;
+    shirt.image = `http://${req.headers.host}/${req.file.path}`;
   }
   await shirt.save();
 

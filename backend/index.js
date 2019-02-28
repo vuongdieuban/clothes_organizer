@@ -16,7 +16,7 @@ mongoose
 app.use(express.json());
 app.use(cors());
 
-app.use("/uploads/shirts", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 app.use("/shirts", shirts);
 
 app.listen(port, () => {
