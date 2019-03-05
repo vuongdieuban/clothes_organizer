@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 require("./startup/db")();
+require("./startup/objectIDValidation")();
 require("./startup/routes")(app);
 
 app.listen(port, () => {
