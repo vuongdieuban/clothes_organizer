@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Shirt, validate } = require("../models/shirts");
-const upload = require("../utils/imageUpload");
+const { upload, getImageURL } = require("../utils/imageUpload");
 
 router.get("/", async (req, res) => {
   const shirts = await Shirt.find().sort("name");
@@ -19,7 +19,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   });
 
   if (req.file) {
-    shirt.image = `http://${req.headers.host}/${req.file.path}`;
+    shirt.image = getImageURL(req.headers.host, req.file.path);
   }
   await shirt.save();
 
