@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const PantsModel = require("../models/pants");
 const Route = require("./commonModelRoute");
 const validateObjectID = require("../middleware/objectIDValidation");
 const { upload } = require("../utils/imageUpload");
+const PantsModel = require("../models/pants");
 
 const Pants = new Route(PantsModel);
 router.get("/", Pants.getAll());
