@@ -3,6 +3,8 @@ const cors = require("cors");
 
 const shirts = require("../routes/shirts");
 const pants = require("../routes/pants");
+const outerWear = require("../routes/outerWears");
+const shoes = require("../routes/shoes");
 
 module.exports = function(app) {
   app.use(express.json());
@@ -11,4 +13,6 @@ module.exports = function(app) {
   app.use("/uploads", express.static("uploads"));
   app.use("/shirts", shirts);
   app.use("/pants", pants);
+  app.use("/outerwear", outerWear);
+  app.use("/shoes", shoes);
 };

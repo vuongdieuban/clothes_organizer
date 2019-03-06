@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { commonSchema } = require("./commonModel");
 
-const Shoes = mongoose.model("Shoes", commonSchema);
+const OuterWear = mongoose.model("OuterWear", commonSchema);
 
-module.exports = Shoes;
+module.exports = OuterWear;

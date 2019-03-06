@@ -1,7 +1,7 @@
 const { validate } = require("../models/commonModel");
 const { getImageURL } = require("../utils/imageUpload");
 
-class Route {
+class RouteHandler {
   constructor(model) {
     this.model = model;
   }
@@ -83,4 +83,4 @@ class Route {
   }
 }
 
-module.exports = Route;
+module.exports = RouteHandler;
