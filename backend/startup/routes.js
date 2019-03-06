@@ -5,6 +5,7 @@ const shirts = require("../routes/shirts");
 const pants = require("../routes/pants");
 const outerWear = require("../routes/outerWears");
 const shoes = require("../routes/shoes");
+const outfit = require("../routes/outfits");
 
 module.exports = function(app) {
   app.use(express.json());
@@ -15,4 +16,5 @@ module.exports = function(app) {
   app.use("/pants", pants);
   app.use("/outerwear", outerWear);
   app.use("/shoes", shoes);
+  app.use("/outfit", outfit);
 };

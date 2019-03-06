@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
-const { commonSchema } = require("./commonModel");
+const Schema = mongoose.Schema;
 
 const schema = new mongoose.Schema({
   name: {
@@ -10,16 +10,20 @@ const schema = new mongoose.Schema({
     maxlength: 200
   },
   outerWear: {
-    type: commonSchema
+    type: Schema.Types.ObjectId,
+    ref: "OuterWear"
   },
   shirt: {
-    type: commonSchema
+    type: Schema.Types.ObjectId,
+    ref: "Shirt"
   },
   pants: {
-    type: commonSchema
+    type: Schema.Types.ObjectId,
+    ref: "Pants"
   },
   shoes: {
-    type: commonSchema
+    type: Schema.Types.ObjectId,
+    ref: "Shoes"
   },
   image: {
     type: String
