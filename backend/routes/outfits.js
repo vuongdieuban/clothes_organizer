@@ -23,28 +23,24 @@ router.post("/", upload.single("image"), async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const outerWear = await OuterWear.findById(req.body.outerWear);
-  if (!outerWear)
-    return res.status(404).send("There is no OuterWear with this provided Id");
-
-  const shirt = await Shirt.findById(req.body.shirt);
-  if (!shirt)
-    return res.status(404).send("There is no Shirt with this provided Id");
-
-  const pants = await Pants.findById(req.body.pants);
-  if (!pants)
-    return res.status(404).send("There is no Pants with this provided Id");
-
-  const shoes = await Shoes.findById(req.body.shoes);
-  if (!shoes)
-    return res.status(404).send("There is no Shoes with this provided Id");
+  // req.body contains _id of individual item
+  const { name, outerWear, shirt, pants, shoes } = req.body;
+  const items = [
+    { label: "OuterWear", model: OuterWear, id: outerWear },
+    { label: "Shirt", model: Shirt, id: shirt },
+    { label: "Pants", model: Pants, id: pants },
+    { label: "Shoes", model: Shoes, id: shoes }
+  ];
+  const { exist, label } = await validateItemsExist(items);
+  if (!exist)
+    return res.status(404).send(`There is no ${label} with the provided Id`);
 
   const outfit = new Outfit({
-    name: req.body.name,
-    outerWear: outerWear._id,
-    shirt: shirt._id,
-    pants: pants._id,
-    shoes: shoes._id
+    name: name,
+    outerWear: outerWear,
+    shirt: shirt,
+    pants: pants,
+    shoes: shoes
   });
 
   if (req.file) {
@@ -54,5 +50,82 @@ router.post("/", upload.single("image"), async (req, res) => {
   await outfit.save();
   res.status(200).send(outfit);
 });
+
+router.get("/:id", validateObjectID, async (req, res) => {
+  const outfit = await Outfit.findById(req.params.id)
+    .populate("outerWear")
+    .populate("shirt")
+    .populate("pants")
+    .populate("shoes");
+  if (!outfit)
+    return res.status(404).send("There is no Outfit with the provided Id");
+  res.status(200).send(outfit);
+});
+
+router.put(
+  "/:id",
+  validateObjectID,
+  upload.single("image"),
+  async (req, res) => {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    // req.body contains _id of individual item
+    const { name, outerWear, shirt, pants, shoes } = req.body;
+    const items = [
+      { label: "OuterWear", model: OuterWear, id: outerWear },
+      { label: "Shirt", model: Shirt, id: shirt },
+      { label: "Pants", model: Pants, id: pants },
+      { label: "Shoes", model: Shoes, id: shoes }
+    ];
+    const { exist, label } = await validateItemsExist(items);
+    if (!exist)
+      return res.status(404).send(`There is no ${label} with the provided Id`);
+
+    const outfit = await Outfit.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: name,
+        outerWear: outerWear,
+        shirt: shirt,
+        pants: pants,
+        shoes: shoes
+      },
+      { new: true }
+    );
+
+    if (!outfit)
+      return res.status(404).send("There is no Outfit with the provided Id");
+
+    if (req.file) {
+      outfit.image = getImageURL(req.headers.host, req.file.path);
+    }
+
+    await outfit.save();
+    res.status(200).send(outfit);
+  }
+);
+
+router.delete("/:id", validateObjectID, async (req, res) => {
+  const outfit = await Outfit.findByIdAndRemove(req.params.id);
+  if (!outfit)
+    return res.status(404).send("There is no Outfit with the provided Id");
+  return res.status(200).send(outfit);
+});
+
+async function validateItemsExist(items) {
+  let result;
+  let ret = { exist: null, label: "" };
+  for (let i = 0; i < items.length; i++) {
+    result = await items[i].model.findById(items[i].id);
+    if (!result) {
+      ret.exist = false;
+      ret.label = items[i].label;
+      return ret;
+    }
+    ret.exist = true;
+  }
+  return ret;
+}
 
 module.exports = router;
