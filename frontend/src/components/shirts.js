@@ -23,13 +23,8 @@ class Shirt extends Component {
             {shirts &&
               shirts.map(shirt => {
                 return (
-                  <div className="col-md-4">
-                    <img
-                      className="clothing-image"
-                      key={shirt._id}
-                      src={shirt.image}
-                      alt=""
-                    />
+                  <div className="col-md-4" key={shirt._id}>
+                    <img className="clothing-image" src={shirt.image} alt="" />
                   </div>
                 );
               })}

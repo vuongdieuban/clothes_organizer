@@ -1,4 +1,8 @@
 .clothing-image {
-  width: 250px;
-  height: 350px;
+  width: 80%;
+  height: 100%;
+}
+
+.clickable {
+  cursor: pointer;
 }
