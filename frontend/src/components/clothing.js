@@ -5,6 +5,7 @@ import Shirt from "./shirts";
 import Pants from "./pants";
 import Shoes from "./shoes";
 import OuterWear from "./outerWear";
+import Outfit from "./outfit";
 
 class Clothing extends Component {
   state = {
@@ -18,7 +19,7 @@ class Clothing extends Component {
 
   displayClothing = () => {
     const { selectedClothingCategory } = this.state;
-    // if (_.isEmpty(selectedClothingCategory)) return <Shirt />;
+    if (_.isEmpty(selectedClothingCategory)) return <Shirt />;
 
     switch (selectedClothingCategory.name) {
       case "Shirt":
@@ -29,15 +30,14 @@ class Clothing extends Component {
         return <Shoes />;
       case "OuterWear":
         return <OuterWear />;
-
       default:
-        return <Shirt />;
+        return <Outfit />;
     }
   };
 
   componentDidMount() {
     const clothingCategory = [
-      { name: "All" },
+      { name: "Outfit" },
       { name: "OuterWear" },
       { name: "Shirt" },
       { name: "Pants" },

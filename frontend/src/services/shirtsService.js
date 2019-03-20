@@ -1,6 +1,9 @@
 import axios from "axios";
+import getBaseURL from "./baseURL";
 
-export async function getAllShirts(url) {
-  const { data } = await axios.get(url);
+const SHIRT_URL = `${getBaseURL()}/shirts`;
+
+export async function getAllShirts() {
+  const { data } = await axios.get(SHIRT_URL);
   return data;
 }
