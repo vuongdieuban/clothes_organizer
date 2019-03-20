@@ -4,6 +4,7 @@ import ListGroup from "./common/listGroup";
 import Shirt from "./shirts";
 import Pants from "./pants";
 import Shoes from "./shoes";
+import OuterWear from "./outerWear";
 
 class Clothing extends Component {
   state = {
@@ -26,6 +27,9 @@ class Clothing extends Component {
         return <Pants />;
       case "Shoes":
         return <Shoes />;
+      case "OuterWear":
+        return <OuterWear />;
+
       default:
         return <Shirt />;
     }
