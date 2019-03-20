@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import ListGroup from "./common/listGroup";
 import Shirt from "./shirts";
+import Pants from "./pants";
+import Shoes from "./shoes";
 
 class Clothing extends Component {
   state = {
@@ -12,8 +15,25 @@ class Clothing extends Component {
     this.setState({ selectedClothingCategory });
   };
 
+  displayClothing = () => {
+    const { selectedClothingCategory } = this.state;
+    // if (_.isEmpty(selectedClothingCategory)) return <Shirt />;
+
+    switch (selectedClothingCategory.name) {
+      case "Shirt":
+        return <Shirt />;
+      case "Pants":
+        return <Pants />;
+      case "Shoes":
+        return <Shoes />;
+      default:
+        return <Shirt />;
+    }
+  };
+
   componentDidMount() {
     const clothingCategory = [
+      { name: "All" },
       { name: "OuterWear" },
       { name: "Shirt" },
       { name: "Pants" },
@@ -35,9 +55,7 @@ class Clothing extends Component {
             />
           </div>
 
-          <div className="col-md-9">
-            <Shirt />
-          </div>
+          <div className="col-md-9">{this.displayClothing()}</div>
         </div>
       </div>
     );
